@@ -672,7 +672,7 @@ int xdo_get_desktop_for_window(const xdo_t *xdo, Window wid, long *desktop) {
 
   data = xdo_get_window_property_by_atom(xdo, wid, request, &nitems, &type, &size);
 
-  if (nitems > 0) {
+  if (data && nitems > 0) {
     *desktop = *((long*)data);
   } else {
     *desktop = -1;
@@ -702,7 +702,7 @@ int xdo_get_active_window(const xdo_t *xdo, Window *window_ret) {
   root = XDefaultRootWindow(xdo->xdpy);
   data = xdo_get_window_property_by_atom(xdo, root, request, &nitems, &type, &size);
 
-  if (nitems > 0) {
+  if (data && nitems > 0) {
     *window_ret = *((Window*)data);
   } else {
     *window_ret = 0;
@@ -1739,7 +1739,7 @@ int xdo_get_pid_window(const xdo_t *xdo, Window window) {
 
   data = xdo_get_window_property_by_atom(xdo, window, atom_NET_WM_PID, &nitems, &type, &size);
 
-  if (nitems > 0) {
+  if (data && nitems > 0) {
     /* The data itself is unsigned long, but everyone uses int as pid values */
     window_pid = (int) *((unsigned long *)data);
   }
